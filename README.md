@@ -1,24 +1,79 @@
-# Binar: Express.js
+# README.md
 
-Repository ini ditujukan sebagai boilerplate dalam membuat sebuah HTTP Server menggunakan Express.js
-Repository ini menggunakan Service Repository Pattern, yang artinya di dalam repository ini terdapat modul model, controller, service, dan repository.
+## Description
+This is a simple REST API for a cars management system with authentication & authorization features. The API has three roles: superadmin, admin and customer. 
+- Superadmin can login and register new admin. 
+- Admins and users can login 
+- Users can register for themself
+- Superadmin and admins can create, view, update, and delete cars.
+- Usrs can only view available cars.
 
-## Getting Started
+## Installation
+To install this API, you need to have Node.js installed on your machine. You can download it [here](https://nodejs.org/en/). After installing Node.js, you can clone this repository by running the following command in your terminal:
 
-Untuk mulai membuat sebuah implementasi dari HTTP Server, mulainya menginspeksi file [`app/index.js`](./app/index.js), dan lihatlah salah satu contoh `controller` yang ada di [`app/controllers/mainController.js`](./app/controllers/mainController.js)
-
-Lalu untuk menjalankan development server, kalian tinggal jalanin salah satu script di package.json, yang namanya `develop`.
-
-```sh
-yarn develop
+```bash
+git clone https://github.com/RiyandiDjohari/synrgy7-fsw1-riy-ch6-car_management_api.git
 ```
 
-## Database Management
+After cloning the repository, navigate to the project directory and run the following command to install the dependencies:
 
-Di dalam repository ini sudah terdapat beberapa script yang dapat digunakan dalam memanage database, yaitu:
+```bash
+npm install
+```
 
-- `yarn db:create` digunakan untuk membuat database
-- `yarn db:drop` digunakan untuk menghapus database
-- `yarn db:migrate` digunakan untuk menjalankan database migration
-- `yarn db:seed` digunakan untuk melakukan seeding
-- `yarn db:rollback` digunakan untuk membatalkan migrasi terakhir
+After installing the dependencies, you need to copy the `.env.example` file to `.env` and fill in the necessary environment variables.
+
+```bash
+cp .env.example .env
+```
+
+## Usage
+To start the API, run the following command in your terminal:
+
+```bash
+npm start
+```
+
+The API will be running on `http://localhost:8000`.
+
+## Endpoints
+The following are the available endpoints:
+
+### Auth
+#### Auth Superadmin
+- POST `/api/v1/superadmin/auth/login` - Login a superadmin
+- POST `/api/v1/superadmin/auth/register` - Register a new admin
+
+#### Auth For Admin & User
+- POST `/api/v1/auth/login` - Login an admin & user
+- POST `/api/v1/auth/register` - Register a new user
+
+### Admin & Superadmin
+#### Cars
+- GET `/api/v1/cars` - Get all cars
+- POST `/api/v1/cars` - Create a new car
+- GET `/api/v1/cars/:id` - Get a car by ID
+- PUT `/api/v1/cars/status/:id` - Update a car by ID
+- DELETE `/api/v1/cars/:id` - Delete a car by ID
+
+### Users Cusomer
+#### Cars
+- GET `/api/v1/cars` - Get all available cars
+
+### General
+- GET `/api/v1/me` - Get info current user
+
+## Authors
+- Riyandi Dwitama Djohari - [GitHub]("https://github.com/RiyandiDjohari/")
+
+## Acknowledgements
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Knex.js](http://knexjs.org/)
+- [JWT](https://jwt.io/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Typescript](https://typescriptlang.org/)
+
+## Additional Notes
+This project is part of the Synrgy Academy Full Stack Web Development Bootcamp. This project is for educational purposes only.
