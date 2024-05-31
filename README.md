@@ -2,8 +2,8 @@
 
 ## Description
 This is a simple REST API for a cars management system with authentication & authorization features. The API has three roles: superadmin, admin and customer. 
-- Superadmin can login and register new admin. 
-- Admins and users can login 
+- Superadmin can register new admin. 
+- Superadmin, admins and users can login & get info current user.
 - Users can register for themself
 - Superadmin and admins can create, view, update, and delete cars.
 - Usrs can only view available cars.
@@ -41,12 +41,12 @@ The following are the available endpoints:
 
 ### Auth
 #### Auth Superadmin
-- POST `/api/v1/superadmin/auth/login` - Login a superadmin
 - POST `/api/v1/superadmin/auth/register` - Register a new admin
 
 #### Auth For Admin & User
-- POST `/api/v1/auth/login` - Login an admin & user
+- POST `/api/v1/auth/login` - Login an superadmin, admin & user
 - POST `/api/v1/auth/register` - Register a new user
+- GET `/api/v1/auth/me` - Get info current user
 
 ### Admin & Superadmin
 #### Cars
@@ -56,12 +56,9 @@ The following are the available endpoints:
 - PUT `/api/v1/cars/status/:id` - Update a car by ID
 - DELETE `/api/v1/cars/:id` - Delete a car by ID
 
-### Users Cusomer
+### Users
 #### Cars
 - GET `/api/v1/cars` - Get all available cars
-
-### General
-- GET `/api/v1/me` - Get info current user
 
 ## Authors
 - Riyandi Dwitama Djohari - [GitHub]("https://github.com/RiyandiDjohari/")
