@@ -36,6 +36,12 @@ npm start
 
 The API will be running on `http://localhost:8000`.
 
+## ERD
+![ERD](https://res.cloudinary.com/df25q8a0m/image/upload/v1717172397/wykxv0fx6pzc019w5tnz.png)
+
+## Documentation API Postman
+[Documentation API using Postman](https://documenter.getpostman.com/view/15078650/2sA3Qv7qX6)
+
 ## Endpoints
 The following are the available endpoints:
 
