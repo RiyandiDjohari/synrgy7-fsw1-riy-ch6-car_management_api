@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import authService from "../../service/superadmin/authService";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
 import usersService from "../../service/usersService";
 
 const encryptPassword = (password: string): Promise<string> => {
@@ -17,64 +16,7 @@ const encryptPassword = (password: string): Promise<string> => {
   });
 };
 
-const checkPassword = (password: string, hash: string): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(password, hash, (err, result) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(result);
-    });
-  });
-};
-
-export const login = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { username, password } = req.body;
-
-    const user = await authService.login(username);
-
-    if (!user || !username || !password) {
-      res.status(401).json({
-        status: false,
-        message: "Username or password wrong",
-      });
-      return;
-    }
-
-    const isPasswordMatch = await checkPassword(password, user.password);
-
-    if (!isPasswordMatch) {
-      res.status(401).json({
-        status: false,
-        message: "Username or password wrong",
-      });
-      return;
-    } else {
-      const payload = {
-        id: user.id,
-        role: user.role,
-      };
-      const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1d" });
-      res.status(200).json({
-        status: true,
-        message: "Login Successfully",
-        token,
-        data: {
-          id: user.id,
-          name: user.name,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-        },
-      });
-    }
-  } catch (error) {
-    res.status(500).json({ status: false, message: "Internal Server Error" });
-  }
-};
-
+// Superadmin register new admin
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, username, password, email } = req.body;

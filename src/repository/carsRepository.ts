@@ -2,7 +2,11 @@ import { CarsModels } from "../model/cars.model";
 
 class CarsRepository {
   async findAll() {
-    return CarsModels.query().withGraphFetched("[created_by, deleted_by, updated_by]");
+    return CarsModels.query().withGraphFetched("[created_by(selectName), deleted_by(selectName), updated_by(selectName)]").modifiers({
+      selectName: (builder) => {
+        return builder.select("name", "username", "email", "role")
+      }
+    });
   }
 
   async findAllAvailable () {
@@ -10,7 +14,11 @@ class CarsRepository {
   }
 
   async findById(id: string) {
-    return CarsModels.query().findById(id).withGraphFetched("[created_by, deleted_by, updated_by]");
+    return CarsModels.query().findById(id).withGraphFetched("[created_by(selectName), deleted_by(selectName), updated_by(selectName)]").modifiers({
+      selectName: (builder) => {
+        return builder.select("name", "username", "email", "role")
+      }
+    });
   }
 
   async createCar (payload: CarsModels) {

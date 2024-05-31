@@ -1,6 +1,5 @@
 import { Model, ModelObject } from "objection";
 import { CarsModels } from "./cars.model";
-// import { InvoiceModel } from './invoice.model';
 
 enum RoleUser {
   SUPERADMIN = "superadmin",

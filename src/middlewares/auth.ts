@@ -15,7 +15,7 @@ export const checkAuth = (req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
-    const token = jwt.verify(authorization.split(" ")[1], "secret");
+    const token = jwt.verify(authorization.split(" ")[1], process.env.JWT_SECRET as string);
 
     (req as any).user = token;
 
@@ -27,7 +27,6 @@ export const checkAuth = (req: Request, res: Response, next: NextFunction) => {
 
 export const isSuperAdmin = (req: Request, res: Response, next: NextFunction): void => {
   const user = (req as any).user as JwtPayload;
-  console.log(user);
   if (user && user.role === "superadmin") {
     next();
   } else {

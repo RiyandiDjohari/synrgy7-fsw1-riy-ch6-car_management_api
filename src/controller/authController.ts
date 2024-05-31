@@ -29,7 +29,7 @@ const checkPassword = (password: string, hash: string): Promise<boolean> => {
   });
 };
 
-// Login For Admin and User
+// Login For Superadmin, Admin and User
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
@@ -76,6 +76,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
+// Register for new user
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, username, password, email } = req.body;
