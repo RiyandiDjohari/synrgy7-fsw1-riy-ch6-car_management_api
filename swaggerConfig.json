@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Cars Management API",
+    "title": "Dokumentasi API",
     "version": "1.0.0",
-    "description": "Dokumentasi API Challenge Chapter 6"
+    "description": "Car Management API - Challenge Chapter 6"
   },
   "servers": [
     {
@@ -12,20 +12,401 @@
   ],
   "components": {
     "securitySchemes": {
-        "BearerAuth": {
-            "type": "http",
-            "scheme": "bearer"
-        }
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Auth"
+    },
+    {
+      "name": "Cars",
+      "description": "Cars"
+    }
+  ],
   "paths": {
-    "/me": {
-      "get": {
-        "summary": "Retrieve data of current user",
-        "security": {
-            "bearerAuth": []
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "description": "Login for superadmin, admin, user",
+        "requestBody": {
+          "description": "Payload to make a request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "superadmin1"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "superadmin1"
+                  }
+                }
+              }
+            }
+          }
         },
-        "response": {
+        "responses": {
+          "200": {
+            "description": "When API Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Login Successfully"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZiNjZkZDEzLWNiMGYtNGZkMy1iN2QzLTNiNTRhMDg5NzE0NSIsInJvbGUiOiJzdXBlcmFkbWluIiwiaWF0IjoxNzE3MjYxNTA3LCJleHAiOjE3MTczNDc5MDd9.e2WvrVHEOWHaDlc_aoDtz1QzUJeBdcP0ddf9kEdtaq0"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "fb66dd13-cb0f-4fd3-b7d3-3b54a0897145"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "superadmin1"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "superadmin1"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "superadmin1@yahoo.co.id"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "superadmin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "When Invalid Credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Username or password wrong"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/superadmin/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Register new admin",
+        "description": "Superadmin can register new user",
+        "requestBody": {
+          "description": "Payload to make a request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "newadmin"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "newadmin@gmail.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "newadmin"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "newadmin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "When API Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Register new admin successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "newadmin"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "newadmin"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "admin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Username, password, email and name are required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error: Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Access denied - superadmin only"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register new user",
+        "description": "Register new user",
+        "requestBody": {
+          "description": "Payload to make a request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "johndoe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@gmail.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "johndoe"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "johndoe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "When API Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Register new user successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "johndoe"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "johndoe"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "johndoe"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Username, password, email and name are required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "description": "Get Info User",
+        "summary": "Retrieve data of current user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
           "200": {
             "description": "When API Success",
             "content": {
@@ -40,30 +421,67 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "4e1c8681-a911-466f-94a1-929e0750fc71"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "admin2"
-                          },
-                          "username": {
-                            "type": "string",
-                            "example": "admin2"
-                          },
-                          "email": {
-                            "type": "string",
-                            "example": "admin2@mail.co.id"
-                          },
-                          "role": {
-                            "type": "string",
-                            "example": "admin"
-                          }
+                        "id": {
+                          "type": "string",
+                          "example": "4e1c8681-a911-466f-94a1-929e0750fc71"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "admin2"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "admin2"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "admin2@mail.co.id"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "admin"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error: Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized - Invalid Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
                     }
                   }
                 }
@@ -72,6 +490,206 @@
           }
         }
       }
-    }
+    },
+    "/cars": {
+      "get": {
+        "tags": ["Auth"],
+        "description": "Get All Cars",
+        "summary": "Retrieve data cars",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "When API Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Get all cars successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "6e2bc663-5197-441a-957b-bc75e4a2da7c"
+                          },
+                          "plate": {
+                            "type": "string",
+                            "example": "DBH-3491"
+                          },
+                          "manufacture": {
+                            "type": "string",
+                            "example": "Ford"
+                          },
+                          "model": {
+                            "type": "string",
+                            "example": "F150"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "/images/car01.min.jpg"
+                          },
+                          "rent_per_day": {
+                            "type": "integer",
+                            "example": 200000
+                          },
+                          "capacity": {
+                            "type": "integer",
+                            "example": 2
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter."
+                          },
+                          "available_at": {
+                            "type": "string",
+                            "example": "2022-03-23T15:49:05.563Z"
+                          },
+                          "transmission": {
+                            "type": "string",
+                            "example": "Automatic"
+                          },
+                          "available": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "sedan"
+                          },
+                          "year": {
+                            "type": "integer",
+                            "example": 2022
+                          },
+                          "options": {
+                            "type": "array",
+                            "example": ["Cruise Control", "Tinted Glass"]
+                          },
+                          "specs": {
+                            "type": "array",
+                            "example": ["Brake assist", "Leather-wrapped shift knob", "Glove box lamp"]
+                          },
+                          "created_by_id": {
+                            "type": "string",
+                            "example": "fb66dd13-cb0f-4fd3-b7d3-3b54a0897145"
+                          },
+                          "updated_by_id": {
+                            "type": "string",
+                            "example": null
+                          },
+                          "deleted_by_id": {
+                            "type": "string",
+                            "example": null
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "example": "2024-05-29T17:25:24.294Z"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "example": "2024-05-29T17:25:24.294Z"
+                          },
+                          "deleted_at": {
+                            "type": "string",
+                            "example": null
+                          },
+                          "created_by": {
+                            "type": "object",
+                            "example": {
+                              "name": "superadmin1",
+                              "username": "superadmin1",
+                              "email": "superadmin1@yahoo.co.id",
+                              "role": "superadmin"
+                            }
+                          },
+                          "updated_by": {
+                            "type": "string",
+                            "example": "null"
+                          },
+                          "deleted_by": {
+                            "type": "string",
+                            "example": null
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error: Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized - Invalid Token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data Cars Empty"
+                    },
+                    "data": {
+                      "type": "array",
+                      "example": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/:id": {}
   }
 }
